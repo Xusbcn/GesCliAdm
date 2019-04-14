@@ -1,8 +1,32 @@
 
 $('#form').submit(function(e){
-    e.preventDefault();
+	e.preventDefault();
+
     if(checkNulls() && validate()){
-        $('#form')[0].submit();
+
+		var ruta = window.location.origin+$("#form").attr("action");
+		var nombre = $("#form input[name=nombre]").val();
+		var direccion = $("#form input[name=direccion]").val();
+		var provincia = $("#form input[name=provincia]").val();
+		var localidad = $("#form input[name=localidad]").val();
+		var nif = $("#form input[name='cif/nif']").val();
+		var email = $("#form input[name=email]").val();
+		var telefono = $("#form input[name=telefono]").val();
+		var cp = $("#form input[name=cp]").val();
+		var token = $("#form input[name=_token]").val();
+
+		$.ajax({
+			url: ruta,
+			headers:{'X-CSRF-TOKEN':token},
+			data: {nombre: nombre, direccion: direccion, provincia: provincia, localidad: localidad, "cif/nif": nif, email: email, telefono: telefono, cp: cp},
+			type: 'POST',
+			dataType: 'json',
+			success: function(data){
+				$('#costumModal10').modal('hide');
+				$("#ClientsTable").html(data);
+			}
+		})
+        //$('#form')[0].submit();
     }
 });
 

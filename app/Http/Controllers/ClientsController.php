@@ -51,19 +51,29 @@ class ClientsController extends Controller
     public function create(Request $request){
         //echo $request->input('cif/nif');
         //Cliente::create($request->all());
-        Cliente::create(
-            [
-                'nombre' => $request->input('nombre'),
-                'direccion' => $request->input('direccion'),
-                'provincia' => $request->input('provincia'),
-                'localidad' => $request->input('localidad'),
-                'CIF/NIF' => $request->input('cif/nif'),
-                'email' => $request->input('email'),
-                'telefono' => $request->input('telefono'),
-                'cp' => $request->input('cp'),
-            ]
-        );
-        return redirect('/');
+        
+        if ($request->ajax()){
+            
+            Cliente::create(
+                [
+                    'nombre' => $request->input('nombre'),
+                    'direccion' => $request->input('direccion'),
+                    'provincia' => $request->input('provincia'),
+                    'localidad' => $request->input('localidad'),
+                    'CIF/NIF' => $request->input('cif/nif'),
+                    'email' => $request->input('email'),
+                    'telefono' => $request->input('telefono'),
+                    'cp' => $request->input('cp'),
+                ]
+            );
+            $filtro=null;
+            $clientes = DB::table('clientes')
+                    ->select('id', 'Nombre', 'Localidad', 'cif/nif')
+                    ->paginate(10);     
+                return response()->json(view('clients.usuarios', compact('clientes','filtro'))->render());    
+        }
+
+        //return redirect('/');
     }
 
     public function edit(Request $request, $id){

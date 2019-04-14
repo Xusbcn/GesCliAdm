@@ -24,7 +24,7 @@ $(document).on("click", "#ClientsTable input[value='Filtrar']", function(event){
 
     $.ajax({
         url: ruta,
-        data: {filtro: busqueda},
+        data: {filtro: busqueda, _token: '{{csrf_token()}}'},
         type: 'GET',
         dataType: 'json',
         success: function(data){
@@ -33,3 +33,5 @@ $(document).on("click", "#ClientsTable input[value='Filtrar']", function(event){
     })
     
 })
+
+//el de crear usuario se ha hecho en "Validator.js", ya que estaban alli las funciones de crear
