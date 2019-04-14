@@ -3,7 +3,9 @@ $(document).on("click", ".pagination a", function(event){
     var paginacion = $(this).attr('href').split('page=');
     var page = paginacion[1];
     var ruta = paginacion[0];
-
+    ruta = ruta.replace('/clients/create', '');
+    //si no hacemos el replace, cuando cree uno nuevo, no funcionara bien
+    
     $.ajax({
         url: ruta,
         data: {page: page},
@@ -22,9 +24,12 @@ $(document).on("click", "#ClientsTable input[value='Filtrar']", function(event){
     var busqueda = $("input[name='filtro']").val();
     var ruta = window.location.origin;
 
+    ruta = ruta.replace('/clients/create', '');
+    //si no hacemos el replace, cuando cree uno nuevo, no funcionara bien
+    
     $.ajax({
         url: ruta,
-        data: {filtro: busqueda, _token: '{{csrf_token()}}'},
+        data: {filtro: busqueda},
         type: 'GET',
         dataType: 'json',
         success: function(data){

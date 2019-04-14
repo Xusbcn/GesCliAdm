@@ -1,19 +1,19 @@
 
-$('#form').submit(function(e){
+$('#form_cli').submit(function(e){
 	e.preventDefault();
 
-    if(checkNulls() && validate()){
+    if(checkNulls2() && validate()){
 
-		var ruta = window.location.origin+$("#form").attr("action");
-		var nombre = $("#form input[name=nombre]").val();
-		var direccion = $("#form input[name=direccion]").val();
-		var provincia = $("#form input[name=provincia]").val();
-		var localidad = $("#form input[name=localidad]").val();
-		var nif = $("#form input[name='cif/nif']").val();
-		var email = $("#form input[name=email]").val();
-		var telefono = $("#form input[name=telefono]").val();
-		var cp = $("#form input[name=cp]").val();
-		var token = $("#form input[name=_token]").val();
+		var ruta = window.location.origin+$("#form_cli").attr("action");
+		var nombre = $("#form_cli input[name=nombre]").val();
+		var direccion = $("#form_cli input[name=direccion]").val();
+		var provincia = $("#form_cli input[name=provincia]").val();
+		var localidad = $("#form_cli input[name=localidad]").val();
+		var nif = $("#form_cli input[name='cif/nif']").val();
+		var email = $("#form_cli input[name=email]").val();
+		var telefono = $("#form_cli input[name=telefono]").val();
+		var cp = $("#form_cli input[name=cp]").val();
+		var token = $("#form_cli input[name=_token]").val();
 
 		$.ajax({
 			url: ruta,
@@ -30,6 +30,13 @@ $('#form').submit(function(e){
     }
 });
 
+$('#form').submit(function(e){
+    e.preventDefault();
+    if(checkNulls() && validate()){
+        $('#form')[0].submit();
+    }
+});
+
 /*$('#createSale').submit(function(e){
     e.preventDefault();
     if(checkNulls() &&validate()){
@@ -37,7 +44,7 @@ $('#form').submit(function(e){
     }
 });*/
 
-$("#form .input" ).change(function() {
+$("form .input" ).change(function() {
 	$(this).css("border","1px solid rgba(0,0,0,0.4");
 	checkNulls();
     validate();
@@ -76,6 +83,26 @@ function validate(){
     if(control){
         return true;
     }else{
+        return false;
+    }
+}
+
+function checkNulls2(){
+    let control = true;
+    $('#form_cli .input').each(function(){
+        if($(this).val() === ""){
+            $(this).css('border','1px solid red');
+            control = false;
+        }else if($(this).children("option:selected").val() === ""){
+			$(this).css('border','1px solid red');
+            control = false;
+		}
+    })
+
+    if(control){
+        return true;
+    }else{
+        createError("Todos los campos son obligatorios.","blank");
         return false;
     }
 }
