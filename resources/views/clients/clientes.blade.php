@@ -20,13 +20,13 @@
         </div>
     </div>
     
-    <div id="ClientsTable"></div>
-    {{ $clientes->links() }}
+    <div id="ClientsTable">
+        {{ $clientes->links() }}
+    </div>
+    
     <script>
         
         var clientes = {!! json_encode($clientes->toArray(), JSON_HEX_TAG) !!} ;
-
-        console.log(clientes)
 
         CreateTable("#ClientsTable",clientes.data,undefined);
 
