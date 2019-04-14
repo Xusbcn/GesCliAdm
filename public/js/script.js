@@ -73,7 +73,23 @@ function createFilter(parent,url,vista,tipo){
     $(reset).click(
         function(){
             $("input[name='filtro']").val("");
-            $("#form_cli").submit();
+            
+            var busqueda = $("input[name='filtro']").val();
+            var ruta = window.location.origin;
+
+            ruta = ruta.replace('/clients/create', '');
+            //si no hacemos el replace, cuando cree uno nuevo, no funcionara bien
+            
+            $.ajax({
+                url: ruta,
+                data: {filtro: busqueda},
+                type: 'GET',
+                dataType: 'json',
+                success: function(data){
+                    $("#ClientsTable").html(data);
+                }
+            })
+
         }
     );
 
