@@ -13,45 +13,67 @@ use DB;
 class ClientsController extends Controller
 {
     public function index(Request $request){
-        if($request->has('filtro')){
-            $filtro=$request->input('filtro');
-            $clientes=DB::table('clientes')
-                            ->select('id', 'Nombre', 'Localidad', 'cif/nif')
-                            ->where('nombre','LIKE',"%".$request->input('filtro')."%")
-                            ->orwhere('localidad','LIKE',"%".$request->input('filtro')."%")
-                            ->orwhere('cif/nif','LIKE',"%".$request->input('filtro')."%")
-                            ->paginate(10)
-                            ->appends('filtro',$filtro);
-            return view('clients.clientes', compact('clientes','filtro'));
+
+        if ($request->ajax()){
             
-        }else{
-        $filtro=null;
-        $clientes = DB::table('clientes')
-                ->select('id', 'Nombre', 'Localidad', 'cif/nif')
-                ->paginate(10);            
+            if($request->has('filtro')){
+                $filtro=$request->input('filtro');
+                $clientes=DB::table('clientes')
+                                ->select('id', 'Nombre', 'Localidad', 'cif/nif')
+                                ->where('nombre','LIKE',"%".$request->input('filtro')."%")
+                                ->orwhere('localidad','LIKE',"%".$request->input('filtro')."%")
+                                ->orwhere('cif/nif','LIKE',"%".$request->input('filtro')."%")
+                                ->paginate(10)
+                                ->appends('filtro',$filtro);
+                return response()->json(view('clients.usuarios', compact('clientes','filtro'))->render());
                 return view('clients.clientes', compact('clientes','filtro'));
+                
+            }else{
+            $filtro=null;
+            $clientes = DB::table('clientes')
+                    ->select('id', 'Nombre', 'Localidad', 'cif/nif')
+                    ->paginate(10);     
 
-
+                return response()->json(view('clients.usuarios', compact('clientes','filtro'))->render());    
+                return view('clients.clientes', compact('clientes','filtro'));    
+            }
         }
-
+        //se necesita para mostrarlo al menos por primera vez
+        else{
+            $filtro=null;
+            $clientes = DB::table('clientes')
+                    ->select('id', 'Nombre', 'Localidad', 'cif/nif')
+                    ->paginate(10);            
+                    return view('clients.clientes', compact('clientes','filtro'));    
+            }
     }
 
     public function create(Request $request){
         //echo $request->input('cif/nif');
         //Cliente::create($request->all());
-        Cliente::create(
-            [
-                'nombre' => $request->input('nombre'),
-                'direccion' => $request->input('direccion'),
-                'provincia' => $request->input('provincia'),
-                'localidad' => $request->input('localidad'),
-                'CIF/NIF' => $request->input('cif/nif'),
-                'email' => $request->input('email'),
-                'telefono' => $request->input('telefono'),
-                'cp' => $request->input('cp'),
-            ]
-        );
-        return redirect('/');
+        
+        if ($request->ajax()){
+            
+            Cliente::create(
+                [
+                    'nombre' => $request->input('nombre'),
+                    'direccion' => $request->input('direccion'),
+                    'provincia' => $request->input('provincia'),
+                    'localidad' => $request->input('localidad'),
+                    'CIF/NIF' => $request->input('cif/nif'),
+                    'email' => $request->input('email'),
+                    'telefono' => $request->input('telefono'),
+                    'cp' => $request->input('cp'),
+                ]
+            );
+            $filtro=null;
+            $clientes = DB::table('clientes')
+                    ->select('id', 'Nombre', 'Localidad', 'cif/nif')
+                    ->paginate(10);     
+                return response()->json(view('clients.usuarios', compact('clientes','filtro'))->render());    
+        }
+
+        //return redirect('/');
     }
 
     public function edit(Request $request, $id){

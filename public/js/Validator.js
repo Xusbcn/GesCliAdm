@@ -1,4 +1,35 @@
 
+$('#form_cli').submit(function(e){
+	e.preventDefault();
+
+    if(checkNulls2() && validate()){
+
+		var ruta = window.location.origin+$("#form_cli").attr("action");
+		var nombre = $("#form_cli input[name=nombre]").val();
+		var direccion = $("#form_cli input[name=direccion]").val();
+		var provincia = $("#form_cli input[name=provincia]").val();
+		var localidad = $("#form_cli input[name=localidad]").val();
+		var nif = $("#form_cli input[name='cif/nif']").val();
+		var email = $("#form_cli input[name=email]").val();
+		var telefono = $("#form_cli input[name=telefono]").val();
+		var cp = $("#form_cli input[name=cp]").val();
+		var token = $("#form_cli input[name=_token]").val();
+
+		$.ajax({
+			url: ruta,
+			headers:{'X-CSRF-TOKEN':token},
+			data: {nombre: nombre, direccion: direccion, provincia: provincia, localidad: localidad, "cif/nif": nif, email: email, telefono: telefono, cp: cp},
+			type: 'POST',
+			dataType: 'json',
+			success: function(data){
+				$('#costumModal10').modal('hide');
+				$("#ClientsTable").html(data);
+			}
+		})
+        //$('#form')[0].submit();
+    }
+});
+
 $('#form').submit(function(e){
     e.preventDefault();
     if(checkNulls() && validate()){
@@ -13,7 +44,7 @@ $('#form').submit(function(e){
     }
 });*/
 
-$("#form .input" ).change(function() {
+$("form .input" ).change(function() {
 	$(this).css("border","1px solid rgba(0,0,0,0.4");
 	checkNulls();
     validate();
@@ -52,6 +83,26 @@ function validate(){
     if(control){
         return true;
     }else{
+        return false;
+    }
+}
+
+function checkNulls2(){
+    let control = true;
+    $('#form_cli .input').each(function(){
+        if($(this).val() === ""){
+            $(this).css('border','1px solid red');
+            control = false;
+        }else if($(this).children("option:selected").val() === ""){
+			$(this).css('border','1px solid red');
+            control = false;
+		}
+    })
+
+    if(control){
+        return true;
+    }else{
+        createError("Todos los campos son obligatorios.","blank");
         return false;
     }
 }

@@ -69,7 +69,29 @@ function createFilter(parent,url,vista,tipo){
         .attr({'type':'button','value':'Resetear',class:"btn"})
         .appendTo(form);
 
-    $(reset).click(function(){window.location.assign(url)});
+    //$(reset).click(function(){window.location.assign(url)});
+    $(reset).click(
+        function(){
+            $("input[name='filtro']").val("");
+            
+            var busqueda = $("input[name='filtro']").val();
+            var ruta = window.location.origin;
+
+            ruta = ruta.replace('/clients/create', '');
+            //si no hacemos el replace, cuando cree uno nuevo, no funcionara bien
+            
+            $.ajax({
+                url: ruta,
+                data: {filtro: busqueda},
+                type: 'GET',
+                dataType: 'json',
+                success: function(data){
+                    $("#ClientsTable").html(data);
+                }
+            })
+
+        }
+    );
 
     $('<input>')
         .attr({'type':'hidden',"name":"tipo", "value":vista})

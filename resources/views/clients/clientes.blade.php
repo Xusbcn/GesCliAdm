@@ -20,13 +20,13 @@
         </div>
     </div>
     
-    <div id="ClientsTable"></div>
-    {{ $clientes->links() }}
+    <div id="ClientsTable">
+        {{ $clientes->links() }}
+    </div>
+    
     <script>
         
         var clientes = {!! json_encode($clientes->toArray(), JSON_HEX_TAG) !!} ;
-
-        console.log(clientes)
 
         CreateTable("#ClientsTable",clientes.data,undefined);
 
@@ -59,7 +59,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="modal-form">
-                        <form id="form" action="/clients/create" method="POST">
+                        <form id="form_cli" action="/clients/create" method="POST">
                             @csrf
                             <label for="nombre">Nombre: <input type="text" name="nombre" class="input"></label>
                             <label for="direccion">Dirección: <input type="text" name="direccion" class="input"></label>
