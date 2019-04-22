@@ -5,6 +5,7 @@
 @stop
 
 @section('content')
+@include('error')
     <div class="content">
         
         <div class="topContainer">
@@ -23,7 +24,7 @@
     <div id="ClientsTable">
         {{ $clientes->links() }}
     </div>
-    
+    @include('error')
     <script>
         
         var clientes = {!! json_encode($clientes->toArray(), JSON_HEX_TAG) !!} ;
@@ -57,6 +58,7 @@
                             Añadir un nuevo cliente
                         </h4>
                     </div>
+                    
                     <div class="modal-body">
                         <div class="modal-form">
                         <form id="form_cli" action="/clients/create" method="POST">

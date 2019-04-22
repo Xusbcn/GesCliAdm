@@ -9,6 +9,7 @@ use App\Archivo;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\Response;
 use DB;
+use App\Http\Requests\ClienteNuevoRequest;
 
 class ClientsController extends Controller
 {
@@ -75,6 +76,12 @@ class ClientsController extends Controller
 
         //return redirect('/');
     }
+
+    public function store (ClienteNuevoRequest $request){
+        
+        return 'cliente guardado';
+    }
+
 
     public function edit(Request $request, $id){
         try{
