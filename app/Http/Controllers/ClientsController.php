@@ -84,22 +84,31 @@ class ClientsController extends Controller
 
 
     public function edit(Request $request, $id){
-        try{
-            Cliente::findOrFail($id)
-                ->update([
-                    'nombre' => $request->input('nombre'),
-                    'direccion' => $request->input('direccion'),
-                    'provincia' => $request->input('provincia'),
-                    'localidad' => $request->input('localidad'),
-                    'cif/nif' => $request->input('cif/nif'),
-                    'email' => $request->input('email'),
-                    'telefono' => $request->input('telefono'),
-                    'cp' => $request->input('cp'),
-                ]);
+        if ($request->ajax()){
+            try{
+                Cliente::findOrFail($id)
+                    ->update([
+                        'nombre' => $request->input('nombre'),
+                        'direccion' => $request->input('direccion'),
+                        'provincia' => $request->input('provincia'),
+                        'localidad' => $request->input('localidad'),
+                        'cif/nif' => $request->input('cif/nif'),
+                        'email' => $request->input('email'),
+                        'telefono' => $request->input('telefono'),
+                        'cp' => $request->input('cp'),
+                    ]);
+                
+                $cliente = Cliente::where('id',$id)->get(['id','nombre','direccion','provincia','localidad','cif/nif','email','telefono','cp']);
+                
+                return response()->json(view('clients.ajax_editar_cliente', compact('cliente'))->render()); 
+                //return response()->json(view('clients.ajax_editar_cliente', compact('clientes','filtro'))->render()); 
+                
+                //no hace falta devolver un response, ya que cuando guardas lo editado, ya se esta mostrando lo que has editado
+                //y si recargas, veras que se ha guardado
 
-            return redirect()->back();
-        }catch(\Exception $ex){
-            return back()->withErrors(['Error'=>'Error del servidor']);
+            }catch(\Exception $ex){
+                return back()->withErrors(['Error'=>'Error del servidor']);
+            }
         }
     }
 

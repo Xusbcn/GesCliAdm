@@ -25,3 +25,4 @@ Route::delete('clientes/{id}', 'ClientController@delete');
 */
 Route::get('/',  ['as' => 'clientes', 'uses' => 'ClientsController@index']);
 Route::post('/clients/create','ClientsController@create');
+Route::put('/clients/{id}', 'ClientsController@edit');
