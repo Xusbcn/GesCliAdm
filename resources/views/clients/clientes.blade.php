@@ -61,7 +61,7 @@
                     
                     <div class="modal-body">
                         <div class="modal-form">
-                        <form id="form_cli" action="/clients/create" method="POST">
+                        <form id="form_cli" action="/api/clients/create" method="POST">
                             @csrf
                             <label for="nombre">Nombre: <input type="text" name="nombre" class="input"></label>
                             <label for="direccion">Dirección: <input type="text" name="direccion" class="input"></label>
