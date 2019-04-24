@@ -3,51 +3,51 @@ $('#form_cli').submit(function(e){
 	e.preventDefault();
 
     
+		if(checkNulls2() && validate()){
+			var ruta = window.location.origin+$("#form_cli").attr("action");
+			var nombre = $("#form_cli input[name=nombre]").val();
+			var direccion = $("#form_cli input[name=direccion]").val();
+			var provincia = $("#form_cli input[name=provincia]").val();
+			var localidad = $("#form_cli input[name=localidad]").val();
+			var nif = $("#form_cli input[name='cif/nif']").val();
+			var email = $("#form_cli input[name=email]").val();
+			var telefono = $("#form_cli input[name=telefono]").val();
+			var cp = $("#form_cli input[name=cp]").val();
+			var token = $("#form_cli input[name=_token]").val();
 
-		var ruta = window.location.origin+$("#form_cli").attr("action");
-		var nombre = $("#form_cli input[name=nombre]").val();
-		var direccion = $("#form_cli input[name=direccion]").val();
-		var provincia = $("#form_cli input[name=provincia]").val();
-		var localidad = $("#form_cli input[name=localidad]").val();
-		var nif = $("#form_cli input[name='cif/nif']").val();
-		var email = $("#form_cli input[name=email]").val();
-		var telefono = $("#form_cli input[name=telefono]").val();
-		var cp = $("#form_cli input[name=cp]").val();
-		var token = $("#form_cli input[name=_token]").val();
+			$.ajax({
+				url: ruta,
+				headers:{'X-CSRF-TOKEN':token},
+				data: {nombre: nombre, direccion: direccion, provincia: provincia, localidad: localidad, "cif/nif": nif, email: email, telefono: telefono, cp: cp},
+				type: 'POST',
+				dataType: 'json',
+				success: function(data){
+					$('#costumModal10').modal('hide');
+					
+					
+					if($.isEmptyObject(data.error)){
+						$('#ClientsTable').html(data)
+						$(".print-error-msg").css('display','none');
 
-		$.ajax({
-			url: ruta,
-			headers:{'X-CSRF-TOKEN':token},
-			data: {nombre: nombre, direccion: direccion, provincia: provincia, localidad: localidad, "cif/nif": nif, email: email, telefono: telefono, cp: cp},
-			type: 'POST',
-			dataType: 'json',
-			success: function(data){
-				$('#costumModal10').modal('hide');
-				
-				
-				if($.isEmptyObject(data.error)){
-					$('#ClientsTable').html(data)
-					$(".print-error-msg").css('display','none');
+					}else{
 
-				}else{
+						printErrorMsg(data.error);
 
-					printErrorMsg(data.error);
-
+					}
 				}
-			}
-		})
-		//$('#form')[0].submit();
-		
-		function printErrorMsg (msg) {
-			// $(".print-error-msg").find("ul").html('');
-			// $(".print-error-msg").css('display','block');
-			$.each( msg, function( key, value ) {
-				// $(".print-error-msg").find("ul").append('<li>'+value+'</li>');
-				createError(value);
+			})
+			//$('#form')[0].submit();
+			
+			function printErrorMsg (msg) {
+				// $(".print-error-msg").find("ul").html('');
+				// $(".print-error-msg").css('display','block');
+				$.each( msg, function( key, value ) {
+					// $(".print-error-msg").find("ul").append('<li>'+value+'</li>');
+					createError(value);
 
-			});
+				});
+			}
 		}
-    
 });
 
 $('#form').submit(function(e){
