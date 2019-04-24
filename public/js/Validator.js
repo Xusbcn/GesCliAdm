@@ -27,6 +27,8 @@ $('#form_cli').submit(function(e){
 				
 				if($.isEmptyObject(data.error)){
 					$('#ClientsTable').html(data)
+					$('.print-error-msg').css('display', 'none')
+
 
 
 				}else{
@@ -39,10 +41,12 @@ $('#form_cli').submit(function(e){
 		//$('#form')[0].submit();
 		
 		function printErrorMsg (msg) {
-			$(".print-error-msg").find("ul").html('');
-			$(".print-error-msg").css('display','block');
+			// $(".print-error-msg").find("ul").html('');
+			// $(".print-error-msg").css('display','block');
 			$.each( msg, function( key, value ) {
-				$(".print-error-msg").find("ul").append('<li>'+value+'</li>');
+				// $(".print-error-msg").find("ul").append('<li>'+value+'</li>');
+				createError(value);
+
 			});
 		}
     
