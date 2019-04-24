@@ -12,6 +12,7 @@
             <div class="top-title">
                 Listado de Clientes:
             </div> 
+            
             <div class="addUserIcon">
                 <a href="#costumModal10" data-toggle="modal">
                     <button class="btn btn-primary" type="submit">Añadir Cliente</button>
@@ -20,7 +21,9 @@
             
         </div>
     </div>
-    
+    <div class="alert alert-danger print-error-msg" style="display:none">
+                <ul></ul>
+            </div>
     <div id="ClientsTable">
         {{ $clientes->links() }}
     </div>

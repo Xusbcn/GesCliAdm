@@ -9,7 +9,7 @@ use App\Archivo;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\Response;
 use DB;
-use App\Http\Requests\ClienteNuevoRequest;
+use Validator;
 
 class ClientsController extends Controller
 {
@@ -77,9 +77,30 @@ class ClientsController extends Controller
         //return redirect('/');
     }
 
-    public function store (ClienteNuevoRequest $request){
+    public function storeData (Request $request){
+        if ($request -> ajax()){
+            $validator = Validator::make($request->all(), [
+                'nombre' => 'required',
+                'direccion' => 'required',
+                'provincia' => 'required',
+                'localidad' => 'required',
+                'CIF/NIF' => 'required',
+                'email' => 'required',
+                'telefono' => 'required',
+                'cp' => 'required',
+                
+            ]);
+            
+            if ($validator->passes()) {
+
+                return response()->json(['success'=>'Added new records.']);
+    
+            }
+
+            return response()->json(['error'=>$validator->errors()->all()]);
+    
         
-        return 'cliente guardado';
+        }
     }
 
 

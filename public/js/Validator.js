@@ -2,7 +2,7 @@
 $('#form_cli').submit(function(e){
 	e.preventDefault();
 
-    if(checkNulls2() && validate()){
+    
 
 		var ruta = window.location.origin+$("#form_cli").attr("action");
 		var nombre = $("#form_cli input[name=nombre]").val();
@@ -23,11 +23,28 @@ $('#form_cli').submit(function(e){
 			dataType: 'json',
 			success: function(data){
 				$('#costumModal10').modal('hide');
-				$("#ClientsTable").html(data);
+				
+				if($.isEmptyObject(data.error)){
+
+					$("#ClientsTable").html(data);
+
+				}else{
+
+					printErrorMsg(data.error);
+
+				}
 			}
 		})
-        //$('#form')[0].submit();
-    }
+		//$('#form')[0].submit();
+		
+		function printErrorMsg (msg) {
+			$(".print-error-msg").find("ul").html('');
+			$(".print-error-msg").css('display','block');
+			$.each( msg, function( key, value ) {
+				$(".print-error-msg").find("ul").append('<li>'+value+'</li>');
+			});
+		}
+    
 });
 
 $('#form').submit(function(e){
