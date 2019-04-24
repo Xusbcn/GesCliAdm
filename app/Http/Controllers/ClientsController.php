@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\Response;
 use DB;
 use App\Http\Requests\ClienteNuevoRequest;
+use Validator;
 
 class ClientsController extends Controller
 {
@@ -77,14 +78,30 @@ class ClientsController extends Controller
         //return redirect('/');
     }
 
-    public function store (ClienteNuevoRequest $request){
-        
-        return 'cliente guardado';
+    public function myformPost(Request $request)
+    {
+
+
+    	$validator = Validator::make($request->all(), [
+            'nombre' => 'required',
+            'mail' => 'required',
+            
+        ]);
+
+
+        if ($validator->passes()) {
+
+
+			return response()->json(['success'=>'Added new records.']);
+        }
+
+
+    	return response()->json(['error'=>$validator->errors()->all()]);
     }
 
 
     public function edit(Request $request, $id){
-        try{
+        
             Cliente::findOrFail($id)
                 ->update([
                     'nombre' => $request->input('nombre'),
@@ -98,9 +115,7 @@ class ClientsController extends Controller
                 ]);
 
             return redirect()->back();
-        }catch(\Exception $ex){
-            return back()->withErrors(['Error'=>'Error del servidor']);
-        }
+        
     }
 
     public function showClient(Request $request, $id){

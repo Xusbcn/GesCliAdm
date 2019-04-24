@@ -24,7 +24,7 @@
     <div id="ClientsTable">
         {{ $clientes->links() }}
     </div>
-    @include('error')
+   
     <script>
         
         var clientes = {!! json_encode($clientes->toArray(), JSON_HEX_TAG) !!} ;
@@ -59,6 +59,13 @@
                         </h4>
                     </div>
                     
+                    <div class="alert alert-danger print-error-msg" style="display:none">
+
+                        <ul></ul>
+
+                    </div>
+
+
                     <div class="modal-body">
                         <div class="modal-form">
                         <form id="form_cli" action="/clients/create" method="POST">

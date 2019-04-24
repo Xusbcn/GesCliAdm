@@ -40,7 +40,7 @@ class ClienteNuevoRequest extends FormRequest
     return [
         'nombre.required' => 'El campo Nombre no puede estar vacio',
         'CIF/NIF.required' => 'El campo DNI/NIF no puede estar vacio',
-        'CIF/NIF.unique' => 'El NIF ya existe',
+        
         'direccion.required' => 'El campo Direccion no puede estar vacio',
         'provincia.required' => 'El campo Provincia no puede estar vacio',
         'localidad.required' => 'El campo Localidad no puede estar vacio',
