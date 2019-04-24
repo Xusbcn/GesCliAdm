@@ -79,6 +79,7 @@ class ClientsController extends Controller
 
     public function storeData (Request $request){
         if ($request -> ajax()){
+            
             $validator = Validator::make($request->all(), [
                 'nombre' => 'required',
                 'direccion' => 'required',
@@ -87,7 +88,7 @@ class ClientsController extends Controller
                 'cif/nif' => 'required',
                 'email' => 'required',
                 'telefono' => 'required',
-                'cp' => 'required',
+                'cp' => 'required|max:5|min:5|clientes_cp',
                 
             ]);
             
