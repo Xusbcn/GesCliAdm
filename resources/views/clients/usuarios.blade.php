@@ -16,6 +16,9 @@
 
         $('input[name="filtro"]').val('{{$filtro}}');
 
+        var prueba = $('ul[class="pagination"]');
+        $('#ClientsTable').append(prueba);
+
     </script>
     
 {{ $clientes->links() }}
