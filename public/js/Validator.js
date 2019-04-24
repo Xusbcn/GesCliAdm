@@ -27,9 +27,7 @@ $('#form_cli').submit(function(e){
 				
 				if($.isEmptyObject(data.error)){
 					$('#ClientsTable').html(data)
-					$('.print-error-msg').css('display', 'none')
-
-
+					$(".print-error-msg").css('display','none');
 
 				}else{
 
