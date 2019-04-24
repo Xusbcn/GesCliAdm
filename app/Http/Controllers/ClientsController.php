@@ -84,7 +84,7 @@ class ClientsController extends Controller
                 'direccion' => 'required',
                 'provincia' => 'required',
                 'localidad' => 'required',
-                'CIF/NIF' => 'required',
+                'cif/nif' => 'required',
                 'email' => 'required',
                 'telefono' => 'required',
                 'cp' => 'required',
@@ -92,8 +92,8 @@ class ClientsController extends Controller
             ]);
             
             if ($validator->passes()) {
-
-                return response()->json(['success'=>'Added new records.']);
+                return $this->create($request);
+                return response()->json($request);
     
             }
 

@@ -24,9 +24,10 @@ $('#form_cli').submit(function(e){
 			success: function(data){
 				$('#costumModal10').modal('hide');
 				
+				
 				if($.isEmptyObject(data.error)){
+					$('#ClientsTable').html(data)
 
-					$("#ClientsTable").html(data);
 
 				}else{
 
