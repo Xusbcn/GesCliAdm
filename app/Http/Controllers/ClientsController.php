@@ -9,7 +9,6 @@ use App\Archivo;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\Response;
 use DB;
-use App\Http\Requests\ClienteNuevoRequest;
 use Validator;
 
 class ClientsController extends Controller
@@ -78,44 +77,60 @@ class ClientsController extends Controller
         //return redirect('/');
     }
 
-    public function myformPost(Request $request)
-    {
-
-
-    	$validator = Validator::make($request->all(), [
-            'nombre' => 'required',
-            'mail' => 'required',
+    public function storeData (Request $request){
+        if ($request -> ajax()){
+            $validator = Validator::make($request->all(), [
+                'nombre' => 'required',
+                'direccion' => 'required',
+                'provincia' => 'required',
+                'localidad' => 'required',
+                'CIF/NIF' => 'required',
+                'email' => 'required',
+                'telefono' => 'required',
+                'cp' => 'required',
+                
+            ]);
             
-        ]);
+            if ($validator->passes()) {
 
+                return response()->json(['success'=>'Added new records.']);
+    
+            }
 
-        if ($validator->passes()) {
-
-
-			return response()->json(['success'=>'Added new records.']);
+            return response()->json(['error'=>$validator->errors()->all()]);
+    
+        
         }
-
-
-    	return response()->json(['error'=>$validator->errors()->all()]);
     }
 
 
     public function edit(Request $request, $id){
-        
-            Cliente::findOrFail($id)
-                ->update([
-                    'nombre' => $request->input('nombre'),
-                    'direccion' => $request->input('direccion'),
-                    'provincia' => $request->input('provincia'),
-                    'localidad' => $request->input('localidad'),
-                    'cif/nif' => $request->input('cif/nif'),
-                    'email' => $request->input('email'),
-                    'telefono' => $request->input('telefono'),
-                    'cp' => $request->input('cp'),
-                ]);
+        if ($request->ajax()){
+            try{
+                Cliente::findOrFail($id)
+                    ->update([
+                        'nombre' => $request->input('nombre'),
+                        'direccion' => $request->input('direccion'),
+                        'provincia' => $request->input('provincia'),
+                        'localidad' => $request->input('localidad'),
+                        'cif/nif' => $request->input('cif/nif'),
+                        'email' => $request->input('email'),
+                        'telefono' => $request->input('telefono'),
+                        'cp' => $request->input('cp'),
+                    ]);
+                
+                $cliente = Cliente::where('id',$id)->get(['id','nombre','direccion','provincia','localidad','cif/nif','email','telefono','cp']);
+                
+                return response()->json(view('clients.ajax_editar_cliente', compact('cliente'))->render()); 
+                //return response()->json(view('clients.ajax_editar_cliente', compact('clientes','filtro'))->render()); 
+                
+                //no hace falta devolver un response, ya que cuando guardas lo editado, ya se esta mostrando lo que has editado
+                //y si recargas, veras que se ha guardado
 
-            return redirect()->back();
-        
+            }catch(\Exception $ex){
+                return back()->withErrors(['Error'=>'Error del servidor']);
+            }
+        }
     }
 
     public function showClient(Request $request, $id){

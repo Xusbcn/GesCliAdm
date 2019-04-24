@@ -2,63 +2,89 @@
 $('#form_cli').submit(function(e){
 	e.preventDefault();
 
-	var ruta = window.location.origin+$("#form_cli").attr("action");
-	var nombre = $("#form_cli input[name=nombre]").val();
-	var direccion = $("#form_cli input[name=direccion]").val();
-	var provincia = $("#form_cli input[name=provincia]").val();
-	var localidad = $("#form_cli input[name=localidad]").val();
-	var nif = $("#form_cli input[name='cif/nif']").val();
-	var email = $("#form_cli input[name=email]").val();
-	var telefono = $("#form_cli input[name=telefono]").val();
-	var cp = $("#form_cli input[name=cp]").val();
-	var token = $("#form_cli input[name=_token]").val();
+    
 
-	$.ajax({
-		url: ruta,
-		headers:{'X-CSRF-TOKEN':token},
-		data: {nombre: nombre, direccion: direccion, provincia: provincia, localidad: localidad, "cif/nif": nif, email: email, telefono: telefono, cp: cp},
-		type: 'POST',
-		dataType: 'json',
-		success: function(data){
-			$('#costumModal10').modal('hide');
-			$("#ClientsTable").html(data);
-			if($.isEmptyObject(data.error)){
-					alert(data.success);
-			}else{
+		var ruta = window.location.origin+$("#form_cli").attr("action");
+		var nombre = $("#form_cli input[name=nombre]").val();
+		var direccion = $("#form_cli input[name=direccion]").val();
+		var provincia = $("#form_cli input[name=provincia]").val();
+		var localidad = $("#form_cli input[name=localidad]").val();
+		var nif = $("#form_cli input[name='cif/nif']").val();
+		var email = $("#form_cli input[name=email]").val();
+		var telefono = $("#form_cli input[name=telefono]").val();
+		var cp = $("#form_cli input[name=cp]").val();
+		var token = $("#form_cli input[name=_token]").val();
+
+		$.ajax({
+			url: ruta,
+			headers:{'X-CSRF-TOKEN':token},
+			data: {nombre: nombre, direccion: direccion, provincia: provincia, localidad: localidad, "cif/nif": nif, email: email, telefono: telefono, cp: cp},
+			type: 'POST',
+			dataType: 'json',
+			success: function(data){
+				$('#costumModal10').modal('hide');
+				
+				if($.isEmptyObject(data.error)){
+
+					$("#ClientsTable").html(data);
+
+				}else{
+
 					printErrorMsg(data.error);
-			}
-		}
-	})
-	
 
-	function printErrorMsg (msg) {
+				}
+			}
+		})
+		//$('#form')[0].submit();
+		
+		function printErrorMsg (msg) {
 			$(".print-error-msg").find("ul").html('');
 			$(".print-error-msg").css('display','block');
 			$.each( msg, function( key, value ) {
 				$(".print-error-msg").find("ul").append('<li>'+value+'</li>');
 			});
 		}
-
-	
-
+    
 });
 
+$('#form').submit(function(e){
+	e.preventDefault();
 
+    if(checkNulls() && validate()){
 
+		var ruta = window.location.origin+$("#form").attr("action");
+		var nombre = $("#form input[name=nombre]").val();
+		var direccion = $("#form input[name=direccion]").val();
+		var provincia = $("#form input[name=provincia]").val();
+		var localidad = $("#form input[name=localidad]").val();
+		var nif = $("#form input[name='cif/nif']").val();
+		var email = $("#form input[name=email]").val();
+		var telefono = $("#form input[name=telefono]").val();
+		var cp = $("#form input[name=cp]").val();
+		var token = $("#form input[name=_token]").val();
 
+		$.ajax({
+			url: ruta,
+			headers:{'X-CSRF-TOKEN':token},
+			data: {nombre: nombre, direccion: direccion, provincia: provincia, localidad: localidad, "cif/nif": nif, email: email, telefono: telefono, cp: cp},
+			type: 'PUT',
+			dataType: 'json',
+			success: function(data){
+				$("#Input").html(data);
+			}
+		})
 
-
-
-
-
-
+        //$('#form')[0].submit();
+    }
+});
+/*
 $('#form').submit(function(e){
     e.preventDefault();
     if(checkNulls() && validate()){
         $('#form')[0].submit();
     }
 });
-
+*/
 /*$('#createSale').submit(function(e){
     e.preventDefault();
     if(checkNulls() &&validate()){

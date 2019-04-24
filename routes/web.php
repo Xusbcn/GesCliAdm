@@ -16,6 +16,7 @@
 Route::get('/',  ['as' => 'clientes', 'uses' => 'ClientsController@index']);
 
 Route::post('/clients/create','ClientsController@create');
+Route::post('/clients/create','ClientsController@storeData');
 
 //Route::get('/clients/{id}', 'ClientsController@showClient');
 
