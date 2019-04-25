@@ -50,40 +50,12 @@ class ClientsController extends Controller
     }
 
     public function index2(Request $request){
-
-        if ($request->ajax()){
-            
-            if($request->has('filtro')){
-                $filtro=$request->input('filtro');
-                $clientes=DB::table('clientes')
-                                ->select('id', 'Nombre', 'Localidad', 'cif/nif')
-                                ->where('nombre','LIKE',"%".$request->input('filtro')."%")
-                                ->orwhere('localidad','LIKE',"%".$request->input('filtro')."%")
-                                ->orwhere('cif/nif','LIKE',"%".$request->input('filtro')."%")
-                                ->paginate(10)
-                                ->appends('filtro',$filtro);
-                return response()->json(view('clients.usuarios', compact('clientes','filtro'))->render());
-                return view('clients.clientes', compact('clientes','filtro'));
-                
-            }else{
-            $filtro=null;
-            $clientes = DB::table('clientes')
-                    ->select('id', 'Nombre', 'Localidad', 'cif/nif')
-                    ->paginate(10);     
-
-                return response()->json(view('clients.usuarios', compact('clientes','filtro'))->render());    
-                return view('clients.clientes', compact('clientes','filtro'));    
-            }
-        }
-        //se necesita para mostrarlo al menos por primera vez
-        else{
-            $filtro=null;
-            $clientes = DB::table('clientes')
-                    ->select('id', 'Nombre', 'Localidad', 'cif/nif')
-                    ->paginate(10);            
-                    return $clientes;
-                    return view('clients.clientes', compact('clientes','filtro'));    
-            }
+        
+        $filtro=null;
+        $clientes = DB::table('clientes')
+                ->select('id', 'Nombre', 'Localidad', 'cif/nif')
+                ->paginate(10);            
+                return $clientes;            
     }
 
 

@@ -10,7 +10,7 @@ $(document).on("click", ".pagination a", function(event){
 
     ruta = ruta.replace('/clients/create', '');
     //si no hacemos el replace, cuando cree uno nuevo, no funcionara bien
-    console.log(ruta);
+
     $.ajax({
         url: ruta,
         data: {page: page},

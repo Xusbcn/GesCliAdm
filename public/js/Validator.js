@@ -26,7 +26,8 @@ $('#form_cli').submit(function(e){
 				//console.log(data.error);
 				
 				if($.isEmptyObject(data.error)){
-					$('#ClientsTable').html(data)
+					$('#ClientsTable').html(data);
+					borrarInputsCrearCliente();
 					//$(".print-error-msg").css('display','none');
 
 				}else{
@@ -82,6 +83,18 @@ $('#form').submit(function(e){
         //$('#form')[0].submit();
     }
 });
+
+function borrarInputsCrearCliente(){
+	$("#form_cli input[name=nombre]").val("");
+	$("#form_cli input[name=direccion]").val("");
+	$("#form_cli input[name=provincia]").val("");
+	$("#form_cli input[name=localidad]").val("");
+	$("#form_cli input[name='cif/nif']").val("");
+	$("#form_cli input[name=email]").val("");
+	$("#form_cli input[name=telefono]").val("");
+	$("#form_cli input[name=cp]").val("");
+}
+
 /*
 $('#form').submit(function(e){
     e.preventDefault();
