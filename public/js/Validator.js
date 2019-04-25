@@ -23,15 +23,19 @@ $('#form_cli').submit(function(e){
 			dataType: 'json',
 			success: function(data){
 				$('#costumModal10').modal('hide');
-				
+				//console.log(data.error);
 				
 				if($.isEmptyObject(data.error)){
 					$('#ClientsTable').html(data)
-					$(".print-error-msg").css('display','none');
+					//$(".print-error-msg").css('display','none');
 
 				}else{
-
+					for (var i = 1; i <=(data.error).length; i++) {
+						printErrorMsg(data.error);
+					}
+					//console.log((data.error).length);
 					printErrorMsg(data.error);
+					$('#costumModal10').modal('show');
 
 				}
 			}

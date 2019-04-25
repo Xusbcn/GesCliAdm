@@ -81,13 +81,13 @@ class ClientsController extends Controller
         if ($request -> ajax()){
             
             $validator = Validator::make($request->all(), [
-                'nombre' => 'required',
-                'direccion' => 'required',
-                'provincia' => 'required',
-                'localidad' => 'required',
-                'cif/nif' => 'required',
-                'email' => 'required',
-                'telefono' => 'required',
+                'nombre' => 'required|max:100',
+                'direccion' => 'required|max:100',
+                'provincia' => 'required|max:100',
+                'localidad' => 'required|max:100',
+                'cif/nif' => 'required|clientes_nif',
+               'email' => 'required|clientes_mail|unique:clientes,email',
+               'telefono' => 'required|clientes_telefono',
                 'cp' => 'required|max:5|min:5|clientes_cp',
                 
             ]);
