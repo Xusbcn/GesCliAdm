@@ -2,7 +2,7 @@
 $('#form_cli').submit(function(e){
 	e.preventDefault();
 
-    
+    if(checkNulls2() && validate()){
 		
 		var ruta = window.location.origin+$("#form_cli").attr("action");
 		var nombre = $("#form_cli input[name=nombre]").val();
@@ -49,7 +49,7 @@ $('#form_cli').submit(function(e){
 				createError(value);
 
 			});
-		}
+	}	}
 	
 });
 
