@@ -30,9 +30,7 @@ $('#form_cli').submit(function(e){
 					//$(".print-error-msg").css('display','none');
 
 				}else{
-					for (var i = 1; i <=(data.error).length; i++) {
-						printErrorMsg(data.error);
-					}
+					
 					//console.log((data.error).length);
 					printErrorMsg(data.error);
 					$('#costumModal10').modal('show');
